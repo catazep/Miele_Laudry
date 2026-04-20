@@ -1,0 +1,45 @@
+<div class="dialog-backdrop" (click)="close()">
+  <div class="dialog-card" (click)="$event.stopPropagation()">
+    @if (invoiceData(); as data) {
+      <div class="dialog-header">
+        <span class="dialog-title">[{{ data.userId }}] {{ data.deviceName }}</span>
+        <button class="dialog-close" (click)="close()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="dialog-body">
+        @if (data.invoiceLines.length === 0) {
+          <div class="empty-state">Not available invoices</div>
+        } @else {
+          <div class="tabs-layout">
+            <nav class="tabs-nav">
+              @for (invoice of data.invoiceLines; track i; let i = $index) {
+                <button
+                  class="tab-item"
+                  [class.tab-item--active]="selectedTab() === i"
+                  (click)="selectedTab.set(i)"
+                >
+                  {{ invoice.name }}
+                </button>
+              }
+            </nav>
+            <div class="tab-content">
+              @if (data.invoiceLines[selectedTab()]; as invoiceContent) {
+                <div class="invoice-field">
+                  <span class="invoice-label">Price</span>
+                  <span class="invoice-value">{{ invoiceContent.totalPrice | number: '1.2-2' }}</span>
+                </div>
+                <div class="invoice-field">
+                  <span class="invoice-label">Currency</span>
+                  <span class="invoice-value">{{ invoiceContent.currency }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="dialog-loading">Loading...</div>
+    }
+  </div>
+</div>

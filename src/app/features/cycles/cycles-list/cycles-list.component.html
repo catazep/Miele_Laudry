@@ -1,1 +1,55 @@
-<p>Cycles list</p>
+<table mat-table [dataSource]="cycles()">
+  <ng-container matColumnDef="user">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let row">
+      <div class="user-cell">
+        <span>{{ row.userId }}</span>
+        <i class="material-icons-outlined user-cell__info" [matTooltip]="row.userAgent">info</i>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="device">
+    <th mat-header-cell *matHeaderCellDef>Device</th>
+    <td mat-cell *matCellDef="let row">
+      <!-- TODO: fix device icons -->
+      <!-- @switch (row.deviceType) {
+        @case ('dryer') {
+          <i mui-icon class="mi-td"></i>
+        }
+        @case ('washer') {
+          <i mui-icon class="mi-wm"></i>
+        }
+      } -->
+      {{ row.deviceName }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="period">
+    <th mat-header-cell *matHeaderCellDef>Cycle Period</th>
+    <td mat-cell *matCellDef="let row">
+      {{ row.startedAt | date: dateFormat }}
+      –
+      {{ row.stoppedAt ? (row.stoppedAt | date: dateFormat) : 'Ongoing' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let row">
+      <span class="status-badge status-badge--{{ row.status }}">{{ row.status }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="invoice">
+    <th mat-header-cell *matHeaderCellDef>Invoice</th>
+    <td mat-cell *matCellDef="let row">
+      <button matMiniFab class="invoice-btn" (click)="viewInvoice(row)">
+        <i class="fa-solid fa-file-invoice-dollar"></i>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

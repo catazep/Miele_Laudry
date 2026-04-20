@@ -1,0 +1,62 @@
+::ng-deep {
+  .mat-mdc-header-cell {
+    font-size: 20px;
+  }
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: capitalize;
+
+  &__info {
+    font-size: 18px;
+    color: var(--miele-orange);
+
+    &:hover {
+      cursor: pointer;
+      opacity: 1;
+    }
+  }
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &--in-progress {
+    background: var(--color-status-in-progress);
+    color: var(--color-text-primary);
+  }
+
+  &--completed {
+    background: var(--color-status-completed);
+    color: var(--color-text-primary);
+  }
+
+  &--cancelled {
+    background: var(--color-status-cancelled);
+    color: var(--color-text-primary);
+  }
+
+  &--failure {
+    background: var(--color-status-failure);
+    color: var(--color-text-primary);
+  }
+}
+
+.invoice-btn {
+  color: var(--color-text-primary);
+  background-color: var(--miele-red);
+}
+
+.mat-mdc-mini-fab {
+  width: 36px;
+  height: 36px;
+}

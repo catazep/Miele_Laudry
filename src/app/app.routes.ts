@@ -7,7 +7,7 @@ import { ROUTES } from './core/constants/routes';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: ROUTES.CYCLES,
+    redirectTo: ROUTES.CYCLES.ROOT,
     pathMatch: 'full',
   },
   {
@@ -17,11 +17,19 @@ export const routes: Routes = [
     canActivate: [guestGuard],
   },
   {
-    path: ROUTES.CYCLES,
+    path: ROUTES.CYCLES.ROOT,
     loadComponent: () =>
-      import('./features/cycles/cycles-list/cycles-list.component').then(
-        (m) => m.CyclesListComponent,
-      ),
+      import('./features/cycles/cycles.component').then((m) => m.CyclesComponent),
     canActivate: [authGuard],
+    children: [
+      {
+        path: `${ROUTES.CYCLES.INVOICE}/:cycleId`,
+        loadComponent: () =>
+          import('./features/cycles/invoice-dialog/invoice-dialog.component').then(
+            (m) => m.InvoiceDialogComponent,
+          ),
+      },
+    ],
   },
+  { path: '**', redirectTo: ROUTES.CYCLES.ROOT },
 ];
