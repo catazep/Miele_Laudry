@@ -1,6 +1,7 @@
 ::ng-deep {
   .mat-mdc-header-cell {
     font-size: 20px;
+    top: var(--navbar-height) !important;
   }
 }
 
