@@ -1,1 +1,21 @@
-<p>Login page</p>
+<div class="login-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-card">
+    <mat-form-field appearance="outline">
+      <mat-label>User</mat-label>
+      <input matInput formControlName="user" />
+      <mat-error>User is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+      <mat-error>Password is required</mat-error>
+    </mat-form-field>
+
+    @if (loginError()) {
+      <p class="login-error">Invalid credentials</p>
+    }
+
+    <button mat-flat-button type="submit" class="login-btn" [disabled]="form.invalid">LOGIN</button>
+  </form>
+</div>

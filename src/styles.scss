@@ -16,3 +16,7 @@ body {
 
   color: white;
 }
+
+.mat-mdc-form-field {
+  --mat-sys-primary: var(--miele-orange);
+}
