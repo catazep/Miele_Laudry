@@ -19,9 +19,7 @@ export const routes: Routes = [
   {
     path: ROUTES.CYCLES,
     loadComponent: () =>
-      import('./features/cycles/cycles-list/cycles-list.component').then(
-        (m) => m.CyclesListComponent,
-      ),
+      import('./features/cycles/cycles.component').then((m) => m.CyclesComponent),
     canActivate: [authGuard],
   },
 ];

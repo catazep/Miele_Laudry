@@ -3,9 +3,14 @@
   --miele-black: #1a1a1a;
   --miele-red: #8c0014;
   --miele-orange: #e8a020;
+  --miele-gray: #eae8e4;
+
+  // Theme colors
+  --color-text: white;
+  
 
   // Status colors
-  --color-status-running: #0066cc;
+  --color-status-in-progress: #0066cc;
   --color-status-completed: #1a8a4a;
   --color-status-cancelled: #888888;
   --color-status-failure: #e5000a;
