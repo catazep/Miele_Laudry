@@ -1,1 +1,13 @@
-<nav></nav>
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" routerLink="/{{ routes.CYCLES }}">
+      <img src="assets/miele-logo.svg" alt="Miele" height="48" />
+    </a>
+
+    <div class="nav__actions">
+      @if (currentUser()) {
+        <button class="nav__btn nav__btn--outline" (click)="logout()">Logout</button>
+      }
+    </div>
+  </div>
+</nav>
