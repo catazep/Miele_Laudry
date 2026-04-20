@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { ROUTES } from '../../../core/constants/routes';
@@ -14,11 +14,13 @@ import { ROUTES } from '../../../core/constants/routes';
 })
 export class NavComponent {
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   public readonly routes = ROUTES;
   public readonly currentUser = this.authService.currentUser;
 
   public logout(): void {
     this.authService.logout();
+    this.router.navigate(['/', ROUTES.LOGIN]);
   }
 }
