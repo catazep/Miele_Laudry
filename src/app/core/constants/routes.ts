@@ -1,4 +1,7 @@
 export const ROUTES = {
   LOGIN: 'login',
-  CYCLES: 'cycles',
+  CYCLES: {
+    ROOT: 'cycles',
+    INVOICE: 'invoice',
+  },
 } as const;

@@ -25,32 +25,38 @@
   display: inline-block;
   padding: 3px 10px;
   border-radius: 12px;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
+  white-space: nowrap;
 
   &--in-progress {
     background: var(--color-status-in-progress);
-    color: var(--color-text);
+    color: var(--color-text-primary);
   }
 
   &--completed {
     background: var(--color-status-completed);
-    color: var(--color-text);
+    color: var(--color-text-primary);
   }
 
   &--cancelled {
     background: var(--color-status-cancelled);
-    color: var(--color-text);
+    color: var(--color-text-primary);
   }
 
   &--failure {
     background: var(--color-status-failure);
-    color: var(--color-text);
+    color: var(--color-text-primary);
   }
 }
 
 .invoice-btn {
-  color: var(--color-text);
+  color: var(--color-text-primary);
   background-color: var(--miele-red);
+}
+
+.mat-mdc-mini-fab {
+  width: 36px;
+  height: 36px;
 }

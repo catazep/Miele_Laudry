@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -14,7 +15,7 @@ import { CyclesListComponent } from './cycles-list/cycles-list.component';
   styleUrls: ['./cycles.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, CyclesListComponent],
+  imports: [AsyncPipe, CyclesListComponent, RouterOutlet],
 })
 export class CyclesComponent {
   private readonly cyclesService = inject(CyclesService);
