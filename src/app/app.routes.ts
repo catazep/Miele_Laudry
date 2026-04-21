@@ -32,9 +32,9 @@ export const routes: Routes = [
     ],
   },
   {
-    path: ROUTES.ADD_CYCLE,
+    path: ROUTES.DEVICES,
     loadComponent: () =>
-      import('./features/add-cycle/add-cycle.component').then((m) => m.AddCycleComponent),
+      import('./features/devices/devices.component').then((m) => m.DevicesComponent),
     canActivate: [authGuard],
   },
   { path: '**', redirectTo: ROUTES.CYCLES.ROOT },
