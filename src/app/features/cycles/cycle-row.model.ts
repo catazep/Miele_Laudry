@@ -6,6 +6,7 @@ export interface CycleRow {
   userAgent: string;
   deviceName: string;
   deviceType: DeviceType;
+  tariff: string;
   startedAt: string;
   stoppedAt?: string;
   status: CycleStatus;
