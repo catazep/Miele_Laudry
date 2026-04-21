@@ -1,0 +1,78 @@
+.devices {
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+}
+
+mat-tab-group {
+  flex: 1;
+  border: 1px solid var(--miele-gray-dark);
+  border-radius: 4px;
+  overflow: hidden;
+
+  --mat-tab-header-active-label-text-color: var(--miele-orange);
+  --mat-tab-header-inactive-label-text-color: color-mix(in srgb, var(--miele-black) 60%, transparent);
+  --mat-tab-header-active-hover-label-text-color: var(--miele-orange);
+  --mat-tab-header-active-focus-label-text-color: var(--miele-orange);
+  --mat-tab-header-inactive-hover-label-text-color: var(--miele-black);
+  --mat-tab-header-inactive-focus-label-text-color: color-mix(in srgb, var(--miele-black) 60%, transparent);
+  --mdc-tab-indicator-active-indicator-color: var(--miele-orange);
+  --mat-tab-divider-height: 0;
+
+  ::ng-deep .mat-mdc-tab-header {
+    background: var(--miele-gray);
+  }
+
+  ::ng-deep .mdc-tab--active {
+    background: var(--miele-white);
+  }
+
+  ::ng-deep .mdc-tab-indicator__content--underline {
+    display: none;
+  }
+}
+
+.device-card {
+  width: 100%;
+  display: flex;
+
+  --lateral-tabs-nav-bg: var(--miele-gray);
+  --lateral-tabs-content-bg: var(--miele-white);
+  --lateral-tabs-border: var(--miele-gray-dark);
+  --lateral-tabs-tab-color: color-mix(in srgb, var(--miele-black) 55%, transparent);
+  --lateral-tabs-tab-hover-bg: color-mix(in srgb, var(--miele-black) 4%, transparent);
+  --lateral-tabs-tab-hover-color: var(--miele-black);
+}
+
+.device-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.device-label {
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--miele-black) 45%, transparent);
+}
+
+.device-value {
+  font-size: 28px;
+  font-weight: var(--font-weight-bold);
+  color: var(--miele-black);
+}
+
+.empty-state {
+  color: color-mix(in srgb, var(--miele-black) 45%, transparent);
+  font-size: 14px;
+}

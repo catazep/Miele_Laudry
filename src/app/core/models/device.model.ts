@@ -1,4 +1,4 @@
-export type DeviceType = 'washer' | 'dryer';
+export type DeviceType = 'washer' | 'dryer' | 'dishwasher' | 'sterilizer' | 'washer-disinfector';
 
 export interface Device {
   id: string;

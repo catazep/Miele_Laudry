@@ -31,5 +31,11 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: ROUTES.DEVICES,
+    loadComponent: () =>
+      import('./features/devices/devices.component').then((m) => m.DevicesComponent),
+    canActivate: [authGuard],
+  },
   { path: '**', redirectTo: ROUTES.CYCLES.ROOT },
 ];

@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, model } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { CyclesService } from '../../../core/services/cycles.service';
 import { DevicesService } from '../../../core/services/devices.service';
 import { InvoiceLine } from '../../../core/models';
 import { ROUTES } from '../../../core/constants/routes';
-import { of } from 'rxjs';
+import { LateralTab, LateralTabsComponent } from '../../../shared/components/lateral-tabs/lateral-tabs.component';
 
 export interface InvoiceDialogData {
   userId: string;
@@ -22,7 +23,7 @@ export interface InvoiceDialogData {
   styleUrls: ['./invoice-dialog.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DecimalPipe],
+  imports: [DecimalPipe, LateralTabsComponent],
 })
 export class InvoiceDialogComponent {
   private readonly route = inject(ActivatedRoute);
@@ -30,7 +31,7 @@ export class InvoiceDialogComponent {
   private readonly cyclesService = inject(CyclesService);
   private readonly devicesService = inject(DevicesService);
 
-  public readonly selectedTab = signal(0);
+  public readonly selectedTab = model(0);
 
   public readonly invoiceData = toSignal<InvoiceDialogData | undefined>(
     this.route.paramMap.pipe(
@@ -55,6 +56,10 @@ export class InvoiceDialogComponent {
       }),
     ),
   );
+
+  public invoiceTabLabels(lines: InvoiceLine[]): LateralTab[] {
+    return lines.map((l) => ({ label: l.name }));
+  }
 
   public close(): void {
     this.router.navigate(['/', ROUTES.CYCLES.ROOT]);

@@ -4,4 +4,5 @@ export const ROUTES = {
     ROOT: 'cycles',
     INVOICE: 'invoice',
   },
+  DEVICES: 'devices',
 } as const;

@@ -10,13 +10,16 @@
 
   &__inner {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
     padding: 0 24px;
     height: var(--navbar-height);
+    position: relative;
   }
 
   &__logo {
     position: absolute;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -25,6 +28,48 @@
     img {
       display: block;
     }
+  }
+
+  &__menu {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__item {
+    display: flex;
+    align-items: end;
+    gap: 4px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-text-contrast);
+    }
+
+    &--active {
+      color: var(--color-text-contrast);
+
+      .nav__icon {
+        color: var(--miele-orange);
+      }
+
+      .nav__label {
+        font-weight: var(--font-weight-bold);
+      }
+    }
+  }
+
+  &__icon {
+    font-size: 16px;
+  }
+
+  &__label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   &__actions {

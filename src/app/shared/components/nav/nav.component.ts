@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { ROUTES } from '../../../core/constants/routes';
@@ -10,7 +10,7 @@ import { ROUTES } from '../../../core/constants/routes';
   styleUrls: ['./nav.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
 })
 export class NavComponent {
   private readonly authService = inject(AuthService);
