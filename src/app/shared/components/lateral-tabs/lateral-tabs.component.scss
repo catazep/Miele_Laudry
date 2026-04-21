@@ -5,7 +5,7 @@
 }
 
 .tabs-nav {
-  width: 190px;
+  width: 230px;
   border-right: 1px solid var(--lateral-tabs-border, var(--color-border));
   background: var(--lateral-tabs-nav-bg, transparent);
   overflow-y: auto;
@@ -44,7 +44,10 @@
 
   &--active {
     color: var(--lateral-tabs-active-color, var(--miele-orange));
-    background: var(--lateral-tabs-active-bg, color-mix(in srgb, var(--miele-orange) 7%, transparent));
+    background: var(
+      --lateral-tabs-active-bg,
+      color-mix(in srgb, var(--miele-orange) 7%, transparent)
+    );
     box-shadow: inset 2px 0 0 var(--lateral-tabs-active-color, var(--miele-orange));
   }
 }

@@ -3,7 +3,6 @@
     @if (authService.isAdmin()) {
       <button mat-stroked-button (click)="addDevice()">Add Device</button>
     }
-    <button mat-flat-button (click)="addCycle()">Create Cycle</button>
   </div>
 
   <mat-tab-group (selectedTabChange)="onTypeTabChange()">
@@ -24,6 +23,14 @@
               } @else {
                 <div class="empty-state">No tariff assigned</div>
               }
+              <button
+                mat-mini-fab
+                color="primary"
+                class="start-cycle-button"
+                (click)="startCycle(device)"
+              >
+                <i class="fa-solid fa-plus"></i>
+              </button>
             }
           </app-lateral-tabs>
         </div>

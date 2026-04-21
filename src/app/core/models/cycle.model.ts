@@ -1,4 +1,4 @@
-export type CycleStatus = 'running' | 'completed' | 'cancelled' | 'failure';
+export type CycleStatus = 'in-progress' | 'completed' | 'cancelled' | 'failure';
 
 export interface InvoiceLine {
   name: string;

@@ -12,6 +12,10 @@
   }
 }
 
+app-lateral-tabs {
+  width: 100%;
+}
+
 mat-tab-group {
   flex: 1;
   border: 1px solid var(--miele-gray-dark);
@@ -19,11 +23,19 @@ mat-tab-group {
   overflow: hidden;
 
   --mat-tab-header-active-label-text-color: var(--miele-orange);
-  --mat-tab-header-inactive-label-text-color: color-mix(in srgb, var(--miele-black) 60%, transparent);
+  --mat-tab-header-inactive-label-text-color: color-mix(
+    in srgb,
+    var(--miele-black) 60%,
+    transparent
+  );
   --mat-tab-header-active-hover-label-text-color: var(--miele-orange);
   --mat-tab-header-active-focus-label-text-color: var(--miele-orange);
   --mat-tab-header-inactive-hover-label-text-color: var(--miele-black);
-  --mat-tab-header-inactive-focus-label-text-color: color-mix(in srgb, var(--miele-black) 60%, transparent);
+  --mat-tab-header-inactive-focus-label-text-color: color-mix(
+    in srgb,
+    var(--miele-black) 60%,
+    transparent
+  );
   --mdc-tab-indicator-active-indicator-color: var(--miele-orange);
   --mat-tab-divider-height: 0;
 
@@ -75,4 +87,9 @@ mat-tab-group {
 .empty-state {
   color: color-mix(in srgb, var(--miele-black) 45%, transparent);
   font-size: 14px;
+}
+
+.start-cycle-button {
+  align-self: flex-end;
+  margin-top: 8px;
 }

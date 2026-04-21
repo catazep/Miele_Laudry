@@ -1,19 +1,26 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { DecimalPipe, TitleCasePipe } from '@angular/common';
 import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ToastrService } from 'ngx-toastr';
 
+import { CyclesService } from '../../core/services/cycles.service';
 import { DevicesService } from '../../core/services/devices.service';
 import { TariffsService } from '../../core/services/tariffs.service';
 import { AuthService } from '../../core/services/auth.service';
-import { DeviceType, Tariff } from '../../core/models';
+import { DeviceType, PayloadCycle, Tariff } from '../../core/models';
 import {
   LateralTab,
   LateralTabsComponent,
 } from '../../shared/components/lateral-tabs/lateral-tabs.component';
+import {
+  ConfirmCycleDialogComponent,
+  ConfirmCycleDialogData,
+} from './confirm-cycle-dialog/confirm-cycle-dialog.component';
 
 const DEVICE_ICONS: Record<DeviceType, string> = {
   washer: 'fa-solid fa-shirt',
@@ -21,6 +28,15 @@ const DEVICE_ICONS: Record<DeviceType, string> = {
   dishwasher: 'fa-solid fa-utensils',
   sterilizer: 'fa-solid fa-flask',
   'washer-disinfector': 'fa-solid fa-shield-halved',
+};
+
+// Hardcoded names
+const CYCLE_INVOICE_NAMES: Record<DeviceType, string> = {
+  washer: 'Washing cycle',
+  dryer: 'Drying cycle',
+  dishwasher: 'Dishwashing cycle',
+  sterilizer: 'Sterilization cycle',
+  'washer-disinfector': 'Disinfection cycle',
 };
 
 interface DeviceGroupItem {
@@ -42,11 +58,21 @@ interface DeviceGroup {
   styleUrls: ['./devices.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatTabsModule, MatButtonModule, LateralTabsComponent, DecimalPipe, TitleCasePipe],
+  imports: [
+    MatTabsModule,
+    MatButtonModule,
+    MatDialogModule,
+    LateralTabsComponent,
+    DecimalPipe,
+    TitleCasePipe,
+  ],
 })
 export class DevicesComponent {
   private readonly devicesService = inject(DevicesService);
   private readonly tariffsService = inject(TariffsService);
+  private readonly cyclesService = inject(CyclesService);
+  private readonly dialog = inject(MatDialog);
+  private readonly toastr = inject(ToastrService);
   public readonly authService = inject(AuthService);
 
   public readonly deviceGroups = toSignal(
@@ -84,7 +110,43 @@ export class DevicesComponent {
     console.log('Add device');
   }
 
-  public addCycle(): void {
-    console.log('Add cycle');
+  public startCycle(device: DeviceGroupItem): void {
+    const dialogRef = this.dialog.open(ConfirmCycleDialogComponent, {
+      data: { deviceName: device.name } satisfies ConfirmCycleDialogData,
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((confirmed) => !!confirmed),
+        switchMap(() => {
+          const user = this.authService.currentUser()!;
+          const payload: PayloadCycle = {
+            startedAt: new Date().toISOString(),
+            status: 'in-progress',
+            userId: user.id,
+            userAgent: navigator.userAgent,
+            deviceId: device.id,
+            invoiceLines: device.tariff
+              ? [
+                  {
+                    name: CYCLE_INVOICE_NAMES[device.type],
+                    totalPrice: device.tariff.price,
+                    currency: device.tariff.currency,
+                  },
+                ]
+              : [],
+          };
+          return this.cyclesService.create(payload);
+        }),
+        take(1),
+      )
+      .subscribe({
+        next: () => this.toastr.success(`Cycle started for ${device.name}`, 'Success'),
+        error: (err) => {
+          console.error(err);
+          this.toastr.error('Failed to start cycle');
+        },
+      });
   }
 }

@@ -1,0 +1,26 @@
+.dialog {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 320px;
+
+  &__title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: var(--font-weight-bold);
+    color: var(--miele-black);
+  }
+
+  &__body {
+    margin: 0;
+    font-size: 14px;
+    color: color-mix(in srgb, var(--miele-black) 65%, transparent);
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+}
