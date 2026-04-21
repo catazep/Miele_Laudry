@@ -1,6 +1,40 @@
 <nav class="nav">
   <div class="nav__inner">
-    <a class="nav__logo" routerLink="/{{ routes.CYCLES }}">
+    @if (currentUser()) {
+      <div class="nav__menu">
+        <a
+          class="nav__item"
+          [routerLink]="['/', routes.CYCLES.ROOT]"
+          routerLinkActive
+          #homeLinkActive="routerLinkActive"
+          [class.nav__item--active]="homeLinkActive.isActive"
+        >
+          @if (homeLinkActive.isActive) {
+            <i class="fa-solid fa-house-user nav__icon"></i>
+          } @else {
+            <i class="fa-regular fa-house nav__icon"></i>
+          }
+          <span class="nav__label">Home</span>
+        </a>
+
+        <a
+          class="nav__item"
+          [routerLink]="['/', routes.ADD_CYCLE]"
+          routerLinkActive
+          #workLinkActive="routerLinkActive"
+          [class.nav__item--active]="workLinkActive.isActive"
+        >
+          @if (workLinkActive.isActive) {
+            <i class="fa-solid fa-clipboard-check nav__icon"></i>
+          } @else {
+            <i class="fa-regular fa-clipboard nav__icon"></i>
+          }
+          <span class="nav__label">Work</span>
+        </a>
+      </div>
+    }
+
+    <a class="nav__logo" [routerLink]="['/', routes.CYCLES.ROOT]">
       <img src="assets/miele-logo.svg" alt="Miele" height="48" />
     </a>
 

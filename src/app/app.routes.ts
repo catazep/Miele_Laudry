@@ -31,5 +31,11 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: ROUTES.ADD_CYCLE,
+    loadComponent: () =>
+      import('./features/add-cycle/add-cycle.component').then((m) => m.AddCycleComponent),
+    canActivate: [authGuard],
+  },
   { path: '**', redirectTo: ROUTES.CYCLES.ROOT },
 ];

@@ -4,4 +4,5 @@ export const ROUTES = {
     ROOT: 'cycles',
     INVOICE: 'invoice',
   },
+  ADD_CYCLE: 'add-cycle',
 } as const;
