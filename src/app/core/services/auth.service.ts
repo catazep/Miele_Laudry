@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -13,6 +13,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
 
   readonly currentUser = signal<User | undefined>(this.loadSession());
+  readonly isAdmin = computed(() => this.currentUser()?.role === 'admin');
 
   public login(id: string, password: string): Observable<User> {
     // We assume user ids are unique

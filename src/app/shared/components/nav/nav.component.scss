@@ -46,11 +46,11 @@
     transition: color 0.2s;
 
     &:hover {
-      color: var(--color-text-primary);
+      color: var(--color-text-contrast);
     }
 
     &--active {
-      color: var(--color-text-primary);
+      color: var(--color-text-contrast);
 
       .nav__icon {
         color: var(--miele-orange);

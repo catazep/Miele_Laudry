@@ -1,3 +1,33 @@
-<div class="devices">
-  <h1>Devices</h1>
+<div class="devices" [style.max-width]="matTabGroupMaxWidth() + 'px'">
+  <div class="devices__actions">
+    @if (authService.isAdmin()) {
+      <button mat-stroked-button (click)="addDevice()">Add Device</button>
+    }
+    <button mat-flat-button (click)="addCycle()">Create Cycle</button>
+  </div>
+
+  <mat-tab-group (selectedTabChange)="onTypeTabChange()">
+    @for (group of deviceGroups(); track group.type) {
+      <mat-tab [label]="group.type | titlecase">
+        <div class="device-card">
+          <app-lateral-tabs [tabs]="group.tabs" [(selectedIndex)]="selectedDeviceIndex">
+            @if (group.devices[selectedDeviceIndex()]; as device) {
+              @if (device.tariff) {
+                <div class="device-field">
+                  <span class="device-label">Price</span>
+                  <span class="device-value">{{ device.tariff.price | number: '1.2-2' }}</span>
+                </div>
+                <div class="device-field">
+                  <span class="device-label">Currency</span>
+                  <span class="device-value">{{ device.tariff.currency }}</span>
+                </div>
+              } @else {
+                <div class="empty-state">No tariff assigned</div>
+              }
+            }
+          </app-lateral-tabs>
+        </div>
+      </mat-tab>
+    }
+  </mat-tab-group>
 </div>

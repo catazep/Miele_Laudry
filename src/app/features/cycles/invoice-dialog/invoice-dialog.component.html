@@ -11,31 +11,18 @@
         @if (data.invoiceLines.length === 0) {
           <div class="empty-state">Not available invoices</div>
         } @else {
-          <div class="tabs-layout">
-            <nav class="tabs-nav">
-              @for (invoice of data.invoiceLines; track i; let i = $index) {
-                <button
-                  class="tab-item"
-                  [class.tab-item--active]="selectedTab() === i"
-                  (click)="selectedTab.set(i)"
-                >
-                  {{ invoice.name }}
-                </button>
-              }
-            </nav>
-            <div class="tab-content">
-              @if (data.invoiceLines[selectedTab()]; as invoiceContent) {
-                <div class="invoice-field">
-                  <span class="invoice-label">Price</span>
-                  <span class="invoice-value">{{ invoiceContent.totalPrice | number: '1.2-2' }}</span>
-                </div>
-                <div class="invoice-field">
-                  <span class="invoice-label">Currency</span>
-                  <span class="invoice-value">{{ invoiceContent.currency }}</span>
-                </div>
-              }
-            </div>
-          </div>
+          <app-lateral-tabs [tabs]="invoiceTabLabels(data.invoiceLines)" [(selectedIndex)]="selectedTab">
+            @if (data.invoiceLines[selectedTab()]; as line) {
+              <div class="invoice-field">
+                <span class="invoice-label">Price</span>
+                <span class="invoice-value">{{ line.totalPrice | number: '1.2-2' }}</span>
+              </div>
+              <div class="invoice-field">
+                <span class="invoice-label">Currency</span>
+                <span class="invoice-value">{{ line.currency }}</span>
+              </div>
+            }
+          </app-lateral-tabs>
         }
       </div>
     } @else {

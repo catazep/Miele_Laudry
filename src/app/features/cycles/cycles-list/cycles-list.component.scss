@@ -33,27 +33,27 @@
 
   &--in-progress {
     background: var(--color-status-in-progress);
-    color: var(--color-text-primary);
+    color: var(--color-text-contrast);
   }
 
   &--completed {
     background: var(--color-status-completed);
-    color: var(--color-text-primary);
+    color: var(--color-text-contrast);
   }
 
   &--cancelled {
     background: var(--color-status-cancelled);
-    color: var(--color-text-primary);
+    color: var(--color-text-contrast);
   }
 
   &--failure {
     background: var(--color-status-failure);
-    color: var(--color-text-primary);
+    color: var(--color-text-contrast);
   }
 }
 
 .invoice-btn {
-  color: var(--color-text-primary);
+  color: var(--color-text-contrast);
   background-color: var(--miele-red);
 }
 

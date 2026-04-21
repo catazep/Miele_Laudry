@@ -1,0 +1,60 @@
+.tabs-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.tabs-nav {
+  width: 190px;
+  border-right: 1px solid var(--lateral-tabs-border, var(--color-border));
+  background: var(--lateral-tabs-nav-bg, transparent);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  flex-shrink: 0;
+}
+
+.tab-item {
+  background: none;
+  border: none;
+  color: var(--lateral-tabs-tab-color, var(--color-text-secondary));
+  text-align: left;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--font-family);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition:
+    background 0.15s,
+    color 0.15s;
+
+  &__icon {
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: var(--lateral-tabs-tab-hover-bg, var(--color-surface-hover));
+    color: var(--lateral-tabs-tab-hover-color, var(--color-text-contrast));
+  }
+
+  &--active {
+    color: var(--lateral-tabs-active-color, var(--miele-orange));
+    background: var(--lateral-tabs-active-bg, color-mix(in srgb, var(--miele-orange) 7%, transparent));
+    box-shadow: inset 2px 0 0 var(--lateral-tabs-active-color, var(--miele-orange));
+  }
+}
+
+.tab-content {
+  flex: 1;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  background: var(--lateral-tabs-content-bg, transparent);
+}

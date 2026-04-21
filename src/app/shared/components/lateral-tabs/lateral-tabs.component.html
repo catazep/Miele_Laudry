@@ -1,0 +1,17 @@
+<div class="tabs-layout">
+  <nav class="tabs-nav">
+    @for (tab of tabs(); track i; let i = $index) {
+      <button
+        class="tab-item"
+        [class.tab-item--active]="selectedIndex() === i"
+        (click)="selectedIndex.set(i)"
+      >
+        @if (tab.icon) { <i [class]="tab.icon + ' tab-item__icon'"></i> }
+        {{ tab.label }}
+      </button>
+    }
+  </nav>
+  <div class="tab-content">
+    <ng-content />
+  </div>
+</div>
