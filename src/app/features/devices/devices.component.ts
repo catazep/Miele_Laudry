@@ -109,9 +109,10 @@ export class DevicesComponent {
     { initialValue: [] satisfies DeviceGroup[] },
   );
 
-  public readonly matTabGroupMaxWidth = computed(() =>
-    Math.min(this.deviceGroups().length * 320, 960),
-  );
+  public readonly matTabGroupMaxWidth = computed(() => {
+    const minLengthAllowe = this.deviceGroups().length < 2 ? 2 : this.deviceGroups().length;
+    return Math.min(minLengthAllowe * 320, 960);
+  });
 
   public readonly selectedDeviceIndex = signal(0);
 
