@@ -30,6 +30,18 @@ Create a `db.json` file with at least one user:
 }
 ```
 
+If using the backend-api.json provided by the author you can use:
+
+Admin user (for full functionality):
+```json
+{
+    "id": "catalin",
+    "password": "test",
+    "role": "admin"
+}
+```
+
+
 Then run:
 
 ```bash
