@@ -21,8 +21,8 @@ Create a `db.json` file with at least one user:
 ```json
 {
   "users": [
-    { "id": "1", "username": "admin", "password": "admin", "role": "admin" },
-    { "id": "2", "username": "user", "password": "user", "role": "user" }
+    { "id": "admin", "password": "admin", "role": "admin" },
+    { "id": "user", "password": "user", "role": "user" }
   ],
   "devices": [],
   "tariffs": [],
