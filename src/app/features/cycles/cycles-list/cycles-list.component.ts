@@ -6,7 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ROUTES } from '../../../core/constants/routes';
 import { CycleRow } from '../cycle-row.model';
-import { CyclePeriodPipe } from '../../../shared/pipes/cycle-period.pipe';
+import { MergePeriodPipe } from '../../../shared/pipes/merge-period.pipe';
 
 @Component({
   selector: 'app-cycles-list',
@@ -14,7 +14,7 @@ import { CyclePeriodPipe } from '../../../shared/pipes/cycle-period.pipe';
   styleUrls: ['./cycles-list.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatTableModule, MatTooltipModule, MatButtonModule, CyclePeriodPipe],
+  imports: [MatTableModule, MatTooltipModule, MatButtonModule, MergePeriodPipe],
 })
 export class CyclesListComponent {
   private readonly router = inject(Router);
