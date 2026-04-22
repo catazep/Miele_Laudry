@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { Device } from '../models';
+import { Device, PayloadDevice } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class DevicesService {
@@ -16,5 +16,9 @@ export class DevicesService {
 
   public getById(id: string): Observable<Device> {
     return this.http.get<Device>(`${this.baseUrl}/${id}`);
+  }
+
+  public create(payload: PayloadDevice): Observable<Device> {
+    return this.http.post<Device>(this.baseUrl, payload);
   }
 }

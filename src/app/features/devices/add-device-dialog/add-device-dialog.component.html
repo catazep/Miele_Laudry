@@ -1,0 +1,54 @@
+<div class="dialog">
+  <h2 class="dialog__title">Add Device</h2>
+
+  <form [formGroup]="form" class="dialog__form">
+    <fieldset class="dialog__zone" formGroupName="device">
+      <legend class="dialog__zone-title">Device</legend>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type">
+          @for (deviceType of deviceTypes; track deviceType.value) {
+            <mat-option [value]="deviceType.value">{{ deviceType.label }}</mat-option>
+          }
+        </mat-select>
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+    </fieldset>
+
+    <fieldset class="dialog__zone" formGroupName="tariff">
+      <legend class="dialog__zone-title">Tariff</legend>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="price" />
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Currency</mat-label>
+        <input matInput formControlName="currency" [matAutocomplete]="currencyAuto" />
+        <mat-autocomplete #currencyAuto="matAutocomplete">
+          @for (currency of filteredCurrencies(); track currency) {
+            <mat-option [value]="currency">{{ currency }}</mat-option>
+          }
+        </mat-autocomplete>
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+    </fieldset>
+  </form>
+
+  <div class="dialog__actions">
+    <button mat-stroked-button (click)="cancel()">Cancel</button>
+    <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="submit()">
+      Add
+    </button>
+  </div>
+</div>
