@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { Tariff } from '../models';
+import { Tariff, PayloadTariff } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class TariffsService {
@@ -16,5 +16,13 @@ export class TariffsService {
 
   public getById(id: string): Observable<Tariff> {
     return this.http.get<Tariff>(`${this.baseUrl}/${id}`);
+  }
+
+  public create(payload: PayloadTariff): Observable<Tariff> {
+    return this.http.post<Tariff>(this.baseUrl, payload);
+  }
+
+  public delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

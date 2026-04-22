@@ -1,8 +1,19 @@
-export type DeviceType = 'washer' | 'dryer' | 'dishwasher' | 'sterilizer' | 'washer-disinfector';
+export const DEVICE_TYPES = [
+  'washer',
+  'dryer',
+  'dishwasher',
+  'sterilizer',
+  'washer-disinfector',
+] as const;
 
-export interface Device {
-  id: string;
+export type DeviceType = (typeof DEVICE_TYPES)[number];
+
+export interface PayloadDevice {
   name: string;
   type: DeviceType;
   tariffId: string;
+}
+
+export interface Device extends PayloadDevice {
+  id: string;
 }

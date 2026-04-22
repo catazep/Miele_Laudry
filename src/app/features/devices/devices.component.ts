@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { DecimalPipe, TitleCasePipe } from '@angular/common';
-import { combineLatest } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { combineLatest, Subject, throwError } from 'rxjs';
+import { catchError, filter, map, startWith, switchMap, take } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -12,7 +12,7 @@ import { CyclesService } from '../../core/services/cycles.service';
 import { DevicesService } from '../../core/services/devices.service';
 import { TariffsService } from '../../core/services/tariffs.service';
 import { AuthService } from '../../core/services/auth.service';
-import { DeviceType, PayloadCycle, Tariff } from '../../core/models';
+import { DeviceType, PayloadCycle, PayloadDevice, PayloadTariff, Tariff } from '../../core/models';
 import {
   LateralTab,
   LateralTabsComponent,
@@ -21,6 +21,10 @@ import {
   ConfirmCycleDialogComponent,
   ConfirmCycleDialogData,
 } from './confirm-cycle-dialog/confirm-cycle-dialog.component';
+import {
+  AddDeviceDialogComponent,
+  AddDeviceDialogResult,
+} from './add-device-dialog/add-device-dialog.component';
 
 const DEVICE_ICONS: Record<DeviceType, string> = {
   washer: 'fa-solid fa-shirt',
@@ -75,24 +79,33 @@ export class DevicesComponent {
   private readonly toastr = inject(ToastrService);
   public readonly authService = inject(AuthService);
 
-  public readonly deviceGroups = toSignal(
-    combineLatest([this.devicesService.getAll(), this.tariffsService.getAll()]).pipe(
-      map(([devices, tariffs]) => {
-        const types = [...new Set(devices.map((d) => d.type))] satisfies DeviceType[];
-        return types.map((type) => {
-          const groupDevices = devices
-            .filter((d) => d.type === type)
-            .map((d) => ({ ...d, tariff: tariffs.find((t) => t.id === d.tariffId) }));
+  private readonly refreshSubject = new Subject<void>();
 
-          const icon = DEVICE_ICONS[type];
-          return {
-            type,
-            tabs: groupDevices.map((d) => ({ label: d.name, icon }) satisfies LateralTab),
-            devices: groupDevices,
-          } satisfies DeviceGroup;
-        });
-      }),
-    ),
+  public readonly deviceGroups = toSignal(
+    this.refreshSubject
+      .pipe(
+        startWith(undefined),
+        switchMap(() =>
+          combineLatest([this.devicesService.getAll(), this.tariffsService.getAll()]),
+        ),
+      )
+      .pipe(
+        map(([devices, tariffs]) => {
+          const types = [...new Set(devices.map((d) => d.type))] satisfies DeviceType[];
+          return types.map((type) => {
+            const groupDevices = devices
+              .filter((d) => d.type === type)
+              .map((d) => ({ ...d, tariff: tariffs.find((t) => t.id === d.tariffId) }));
+
+            const icon = DEVICE_ICONS[type];
+            return {
+              type,
+              tabs: groupDevices.map((d) => ({ label: d.name, icon }) satisfies LateralTab),
+              devices: groupDevices,
+            } satisfies DeviceGroup;
+          });
+        }),
+      ),
     { initialValue: [] satisfies DeviceGroup[] },
   );
 
@@ -107,13 +120,54 @@ export class DevicesComponent {
   }
 
   public addDevice(): void {
-    console.log('Add device');
+    const dialogRef = this.dialog.open(AddDeviceDialogComponent);
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((result): result is AddDeviceDialogResult => !!result),
+        switchMap((result) => {
+          const tariffPayload: PayloadTariff = result.tariff;
+          return this.tariffsService.create(tariffPayload).pipe(
+            switchMap((tariff) =>
+              this.devicesService
+                .create({
+                  ...result.device,
+                  tariffId: tariff.id,
+                } satisfies PayloadDevice)
+                .pipe(
+                  // Normally this is backend job,
+                  // But just for fun and demonstration of error handling and rollback
+                  catchError((err) =>
+                    this.tariffsService
+                      .delete(tariff.id)
+                      .pipe(switchMap(() => throwError(() => err))),
+                  ),
+                ),
+            ),
+          );
+        }),
+        take(1),
+      )
+      .subscribe({
+        next: () => {
+          this.refreshSubject.next();
+          this.toastr.success('Device added successfully', 'Success');
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error('Failed to add device');
+        },
+      });
   }
 
   public startCycle(device: DeviceGroupItem): void {
-    const dialogRef = this.dialog.open(ConfirmCycleDialogComponent, {
-      data: { deviceName: device.name } satisfies ConfirmCycleDialogData,
-    });
+    const dialogRef = this.dialog.open<ConfirmCycleDialogComponent, ConfirmCycleDialogData>(
+      ConfirmCycleDialogComponent,
+      {
+        data: { deviceName: device.name } satisfies ConfirmCycleDialogData,
+      },
+    );
 
     dialogRef
       .afterClosed()
